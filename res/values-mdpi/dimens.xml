@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="weather_text_location">32sp</dimen>
+    <dimen name="weather_text_clock">80sp</dimen>
+    <dimen name="weather_text_date">28sp</dimen>
+    <dimen name="weather_text_weather">40sp</dimen>
+    <dimen name="weather_button_update">48dp</dimen>
+    <dimen name="weather_text_temp_today">105sp</dimen>
+    <dimen name="weather_text_wind_today">32sp</dimen>
+    <dimen name="weather_margin_more_info">20dp</dimen>
+    <dimen name="weather_more_info_image_size">25dp</dimen>
+    <dimen name="weather_more_info_text_size">20sp</dimen>
+    <dimen name="weather_text_more_week">20sp</dimen>
+    <dimen name="weather_image_more_weather">75dp</dimen>
+    <dimen name="weather_text_more_temp">20sp</dimen>
+
+    <!-- Version 2.0 -->
+    <dimen name="refresh_edge_length">30dp</dimen>
+    <dimen name="layout_detail_height">264dp</dimen>
+    <dimen name="layout_update_height">81dp</dimen>
+    <dimen name="post_time_text_size">21sp</dimen>
+    <dimen name="layout_today_width">360dp</dimen>
+    <dimen name="temp_range_text_size">81sp</dimen>
+
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Version 2.0 -->
+    <dimen name="refresh_edge_length">20dp</dimen>
+    <dimen name="layout_detail_height">176dp</dimen>
+    <dimen name="layout_update_height">54dp</dimen>
+    <dimen name="post_time_text_size">14sp</dimen>
+    <dimen name="layout_today_width">240dp</dimen>
+    <dimen name="temp_range_text_size">54sp</dimen>
+
+</resources>

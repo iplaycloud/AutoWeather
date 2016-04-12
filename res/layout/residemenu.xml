@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:background="@drawable/icon_weather_bg_sun_day"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/iv_shadow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/shadow"
+        android:scaleType="fitXY"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/rl_left_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/layout_info"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_left_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutHint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textSettingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_vertical"
+                android:text="天气设置"
+                android:textColor="#ffffff"
+                android:textSize="25sp" />
+
+            <View
+                android:id="@+id/viewLineSpeakWeather"
+                android:layout_width="300dp"
+                android:layout_height="2dp"
+                android:layout_below="@id/textSettingTitle"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="#ffffff" />
+
+            <TextView
+                android:id="@+id/textSpeakWeather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/viewLineSpeakWeather"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="天气更新时后台播报"
+                android:textColor="#ffffff"
+                android:textSize="22sp"
+                android:visibility="gone" />
+
+            <com.tchip.weather.view.SwitchButton
+                android:id="@+id/switchSpeakWeather"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignBottom="@id/textSpeakWeather"
+                android:layout_alignRight="@id/viewLineSpeakWeather"
+                android:layout_alignTop="@id/textSpeakWeather"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                app:animationVelocity="8"
+                app:measureFactor="1.5"
+                app:offDrawable="@drawable/shape_ios_off"
+                app:onColor="#43d95d"
+                app:thumbDrawable="@drawable/ios_thumb"
+                app:thumb_marginBottom="-8dp"
+                app:thumb_marginLeft="-5dp"
+                app:thumb_marginRight="-5dp"
+                app:thumb_marginTop="-2.5dp" />
+
+            <View
+                android:id="@+id/viewLineTop"
+                android:layout_width="300dp"
+                android:layout_height="1dp"
+                android:layout_below="@id/textSettingTitle"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="#ffffff" />
+
+            <TextView
+                android:id="@+id/textUseLocate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/viewLineTop"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="使用定位城市天气"
+                android:textColor="#ffffff"
+                android:textSize="22sp" />
+
+            <com.tchip.weather.view.SwitchButton
+                android:id="@+id/switchUseLocate"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignBottom="@id/textUseLocate"
+                android:layout_alignRight="@id/viewLineTop"
+                android:layout_alignTop="@id/textUseLocate"
+                android:layout_centerVertical="true"
+                app:animationVelocity="8"
+                app:measureFactor="1.5"
+                app:offDrawable="@drawable/shape_ios_off"
+                app:onColor="#43d95d"
+                app:thumbDrawable="@drawable/ios_thumb"
+                app:thumb_marginBottom="-8dp"
+                app:thumb_marginLeft="-5dp"
+                app:thumb_marginRight="-5dp"
+                app:thumb_marginTop="-2.5dp" />
+
+            <RelativeLayout
+                android:id="@+id/layoutManul"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignRight="@id/viewLineTop"
+                android:layout_below="@id/textUseLocate" >
+
+                <View
+                    android:id="@+id/viewLineMunul"
+                    android:layout_width="300dp"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#ffffff" />
+
+                <TextView
+                    android:id="@+id/textManulCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/viewLineMunul"
+                    android:gravity="center_vertical"
+                    android:lines="2"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="自定义城市:\n深圳市"
+                    android:textColor="#ffffff"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:id="@+id/imageManulEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/textManulCity"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/textManulCity"
+                    android:src="@drawable/icon_reside_menu_edit" />
+
+                <ImageView
+                    android:id="@+id/imageManulConfirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/textManulCity"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/textManulCity"
+                    android:src="@drawable/icon_reside_menu_confirm"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/layoutWheel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textManulCity"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/shape_slide_menu_wheel_bg"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
+
+                    <com.tchip.weather.view.WheelView
+                        android:id="@+id/wheelProvince"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <com.tchip.weather.view.WheelView
+                        android:id="@+id/wheelCity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <com.tchip.weather.view.WheelView
+                        android:id="@+id/wheelDistrict"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_right_menu"
+        android:layout_width="150dp"
+        android:layout_height="fill_parent"
+        android:layout_gravity="right"
+        android:paddingRight="30dp"
+        android:scrollbars="none"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/layout_right_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="right"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>
