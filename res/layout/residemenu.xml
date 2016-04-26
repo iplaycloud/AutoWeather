@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:background="@drawable/icon_weather_bg_sun_day"
+        android:background="@drawable/main_bg"
         android:scaleType="centerCrop" />
 
     <ImageView

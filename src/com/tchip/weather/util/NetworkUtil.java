@@ -1,10 +1,8 @@
 package com.tchip.weather.util;
 
 import com.tchip.weather.R;
-import com.tchip.weather.service.SpeakService;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
@@ -27,10 +25,6 @@ public class NetworkUtil {
 	public static void noNetworkHint(Context context) {
 		String strNoNetwork = context.getResources().getString(
 				R.string.hint_no_network);
-
-		Intent intent = new Intent(context, SpeakService.class);
-		intent.putExtra("content", strNoNetwork);
-		context.startService(intent);
 
 		Toast.makeText(context, strNoNetwork, Toast.LENGTH_SHORT).show();
 	}

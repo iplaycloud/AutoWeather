@@ -2,11 +2,26 @@
 <resources>
 
     <!-- Version 2.0 -->
+    <dimen name="weather_more_info_image_size">60dp</dimen>
+    <dimen name="weather_more_info_text_size">18sp</dimen>
     <dimen name="refresh_edge_length">20dp</dimen>
-    <dimen name="layout_detail_height">176dp</dimen>
+    <dimen name="layout_detail_height">200dp</dimen>
     <dimen name="layout_update_height">54dp</dimen>
-    <dimen name="post_time_text_size">14sp</dimen>
-    <dimen name="layout_today_width">240dp</dimen>
-    <dimen name="temp_range_text_size">54sp</dimen>
+    <dimen name="post_time_text_size">18sp</dimen>
+    <dimen name="today_week_date_text_size">18sp</dimen>
+    <dimen name="layout_today_width">260dp</dimen>
+    <dimen name="temp_range_text_size">66sp</dimen>
+
+    <!-- Today Weather -->
+    <dimen name="today_info_margin_top">18dp</dimen>
+    <dimen name="today_info_margin_left">16dp</dimen>
+    <dimen name="today_weather_info_text_size">18sp</dimen>
+    <dimen name="city_text_size">18sp</dimen>
+    <dimen name="toady_wind_margin_top">20dp</dimen>
+    <dimen name="today_air_margin_top">6dp</dimen>
+    <dimen name="today_wet_margin_bottom">20dp</dimen>
+    <dimen name="today_info_icon_length">26dp</dimen>
+    <dimen name="today_temp_du_text_size">50sp</dimen>
+    <dimen name="today_temp_du_margin_left">4dp</dimen>
 
 </resources>

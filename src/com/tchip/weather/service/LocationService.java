@@ -30,13 +30,25 @@ public class LocationService extends Service {
 
 	@Override
 	public void onCreate() {
-		super.onCreate();
-
-		InitLocation(LocationMode.Hight_Accuracy, "bd09ll", scanSpan, true);
-
+		MyLog.v("[LocationService]onCreate");
 		preferences = getSharedPreferences(Constant.MySP.FILE_NAME,
 				Context.MODE_PRIVATE);
 		editor = preferences.edit();
+		super.onCreate();
+	}
+
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		MyLog.v("[LocationService]onStartCommand");
+		InitLocation(LocationMode.Hight_Accuracy, "bd09ll", scanSpan, true);
+		return super.onStartCommand(intent, flags, startId);
+	}
+
+	@Override
+	public void onDestroy() {
+		MyLog.v("[LocationService]onDestroy");
+		mLocationClient.stop();
+		super.onDestroy();
 	}
 
 	/**
@@ -65,7 +77,6 @@ public class LocationService extends Service {
 		option.setScanSpan(frequence);
 		option.setIsNeedAddress(isNeedAddress);
 		mLocationClient.setLocOption(option);
-
 		mLocationClient.start();
 	}
 
@@ -97,15 +108,8 @@ public class LocationService extends Service {
 				// "" + location.getAltitude());
 				editor.putString(Constant.MySP.STR_LOC_TIME, location.getTime());
 				editor.commit();
-
 			}
 		}
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		mLocationClient.stop();
 	}
 
 }

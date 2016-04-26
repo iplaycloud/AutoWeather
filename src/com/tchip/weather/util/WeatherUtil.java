@@ -1,7 +1,8 @@
 package com.tchip.weather.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Locale;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.widget.FrameLayout;
 import com.tchip.weather.Constant;
 import com.tchip.weather.MyApp;
 import com.tchip.weather.R;
+import com.tchip.weather.util.ProviderUtil.Name;
 import com.tchip.weather.view.WeatherDynamicCloudyView;
 import com.tchip.weather.view.WeatherDynamicRainView;
 
@@ -32,7 +34,7 @@ public class WeatherUtil {
 		String strNotLocate = context.getResources().getString(
 				R.string.not_locate);
 
-		String cityName;
+		String cityName = strNotLocate;
 		SharedPreferences sharedPreferences = context.getSharedPreferences(
 				Constant.MySP.FILE_NAME, Context.MODE_PRIVATE);
 
@@ -56,14 +58,17 @@ public class WeatherUtil {
 						cityName = locAddress;
 					}
 				}
+
 			} else {
 				cityName = sharedPreferences.getString(
 						Constant.MySP.STR_LOC_CITY_NAME, strNotLocate);
 			}
+
 		} else {
 			cityName = sharedPreferences.getString(
 					Constant.MySP.STR_MANUL_CITY, strNotLocate);
 		}
+		ProviderUtil.setValue(context, Name.WEATHER_LOC_CITY, cityName);
 		return cityName;
 
 	}
@@ -198,22 +203,23 @@ public class WeatherUtil {
 		String wind = sharedPreferences.getString("day" + day + "wind",
 				strDefaultWind);
 
-		String postTime = context.getResources().getString(
-				R.string.weather_post_time)
-				+ sharedPreferences.getString("postTime", "2015 05:55:55")
-						.split(" ")[1];
+		String postTime = sharedPreferences.getString("postTime",
+				"2015 05:55:55").split(" ")[1];
 		// String dateStr = sharedPreferences.getString("day" + day + "date",
 		// "2016-05-05"); // 2016-01-09
 		// String date = dateStr.substring(0, 4) + "年" + dateStr.substring(5, 7)
 		// + "月" + dateStr.substring(8, 10) + "日";
 
-		Calendar calendar = Calendar.getInstance();
-		int systemYear = calendar.get(Calendar.YEAR);
-		int systemMonth = calendar.get(Calendar.MONTH) + 1;
-		int systemDay = calendar.get(Calendar.DAY_OF_MONTH) + day;
+		Calendar calendarToday = Calendar.getInstance(); // 今天日期
+		Calendar calendarThatDay = DateUtil.changeDate(new SimpleDateFormat(
+				"yyyy-MM-dd", Locale.CHINA).format(calendarToday.getTime()),
+				day); // 要获取的日期
+		int thatYear = calendarThatDay.get(Calendar.YEAR);
+		int thatMonth = calendarThatDay.get(Calendar.MONTH) + 1;
+		int thatDay = calendarThatDay.get(Calendar.DAY_OF_MONTH);
 
-		String date = systemYear + "年" + systemMonth + "月" + systemDay + "日";
-		if (systemYear < 2016) {
+		String date = thatYear + "年" + thatMonth + "月" + thatDay + "日";
+		if (thatYear < 2016) {
 			date = "";
 		}
 
@@ -424,92 +430,44 @@ public class WeatherUtil {
 	}
 
 	/**
-	 * 天气界面背景图片
+	 * 天气图标
 	 * 
 	 * @param type
 	 * @return
 	 */
-	public static int getWeatherBackground(WEATHER_TYPE type) {
-		if (!fancyBackground) {
-			return R.drawable.ui_weather_bg;
-		} else {
-			switch (type) {
-			case SUN:
-				return isDay() ? (R.drawable.icon_weather_bg_sun_day)
-						: (R.drawable.icon_weather_bg_sun_night);
-
-			case CLOUD:
-				return isDay() ? R.drawable.icon_weather_bg_cloud_day
-						: R.drawable.icon_weather_bg_cloud_night;
-
-			case RAIN:
-				return R.drawable.icon_weather_bg_rain;
-
-			case HAIL:
-			case SNOW:
-				return R.drawable.icon_weather_bg_snow;
-
-			case RAIN_SNOW:
-				return R.drawable.icon_weather_bg_rain_snow;
-
-			case FOG:
-				return isDay() ? (R.drawable.icon_weather_bg_sun_day)
-						: (R.drawable.icon_weather_bg_sun_day);
-
-			default:
-				return isDay() ? (R.drawable.icon_weather_bg_default_day)
-						: (R.drawable.icon_weather_bg_default_night);
-			}
-		}
-	}
-
-	/**
-	 * 天气大图标
-	 * 
-	 * @param type
-	 * @return
-	 */
-	public static int getWeatherDrawable(WEATHER_TYPE type) {
-
+	public static int getWeatherDrawable(WEATHER_TYPE type, boolean isLarge) {
 		switch (type) {
 		case SUN:
-			return isDay() ? (R.drawable.ui_weather_sun_day)
-					: (R.drawable.ui_weather_sun_night);
+			return isLarge ? R.drawable.weather_sun
+					: R.drawable.weather_sun_small;
 
 		case CLOUD:
-			return R.drawable.ui_weather_cloud;
+			return isLarge ? R.drawable.weather_cloud
+					: R.drawable.weather_cloud_small;
 
 		case RAIN:
-			return R.drawable.ui_weather_rain;
+			return isLarge ? R.drawable.weather_rain
+					: R.drawable.weather_rain_small;
 
 		case SNOW:
-			return R.drawable.ui_weather_snow;
+			return isLarge ? R.drawable.weather_snow
+					: R.drawable.weather_snow_small;
 
 		case HAIL:
-			return R.drawable.ui_weather_hail;
+			return isLarge ? R.drawable.weather_hail
+					: R.drawable.weather_hail_small;
 
 		case RAIN_SNOW:
-			return R.drawable.ui_weather_rain_snow;
+			return isLarge ? R.drawable.weather_rain_snow
+					: R.drawable.weather_rain_snow_small;
 
 		case FOG:
-			return R.drawable.ui_weather_fog;
+			return isLarge ? R.drawable.weather_fog
+					: R.drawable.weather_fog_small;
 
 		default:
-			return isDay() ? (R.drawable.icon_weather_bg_default_day)
-					: (R.drawable.icon_weather_bg_default_night);
+			return isLarge ? R.drawable.weather_sun
+					: R.drawable.weather_sun_small;
 		}
-	}
-
-	/**
-	 * 是否是白天
-	 * 
-	 * @return
-	 */
-	public static boolean isDay() {
-		Date date = new Date();
-		int hour = date.getHours();
-		if (hour > 18 || hour < 6)
-			return false;
-		return true;
 	}
 }

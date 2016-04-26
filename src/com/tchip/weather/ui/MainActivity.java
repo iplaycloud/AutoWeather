@@ -1,6 +1,7 @@
-package com.tchip.weather.ui.activity;
+package com.tchip.weather.ui;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import com.tchip.weather.Constant;
 import com.tchip.weather.MyApp;
@@ -8,7 +9,6 @@ import com.tchip.weather.R;
 import com.tchip.weather.model.Titanic;
 import com.tchip.weather.model.Typefaces;
 import com.tchip.weather.service.LocationService;
-import com.tchip.weather.service.SpeakService;
 import com.tchip.weather.service.WeatherService;
 import com.tchip.weather.util.DateUtil;
 import com.tchip.weather.util.MyLog;
@@ -27,6 +27,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -41,7 +43,9 @@ import android.widget.TextClock;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
+	private Context context;
 	private SharedPreferences sharedPreferences;
+	private TextToSpeech tts;
 	private FrameLayout frameLayout;
 	private String[] weatherArray;
 
@@ -66,6 +70,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		context = getApplicationContext();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -73,6 +78,7 @@ public class MainActivity extends Activity {
 
 		sharedPreferences = getSharedPreferences(Constant.MySP.FILE_NAME,
 				Context.MODE_PRIVATE);
+		tts = new TextToSpeech(context, new MyOnInitListener());
 
 		// 刷新按钮和进度条
 		updateProgress = (ProgressBar) findViewById(R.id.updateProgress);
@@ -112,6 +118,48 @@ public class MainActivity extends Activity {
 		// resideMenu.addMenuItem(itemHuiyuan, ResideMenu.DIRECTION_LEFT);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		View decorView = getWindow().getDecorView();
+		decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+		MyLog.v("[Weather]onResume");
+		MyApp.isActivityShowing = true;
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MyLog.v("[Weather]onPause");
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		MyLog.v("[Weather]onDestroy");
+		MyApp.isActivityShowing = false;
+		// 关闭LocationService
+		Intent intentLocationService = new Intent(this, LocationService.class);
+		stopService(intentLocationService);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		MyLog.v("[Weather]onStop");
+	}
+
+	class MyOnInitListener implements OnInitListener {
+
+		@Override
+		public void onInit(int status) {
+			// tts.setEngineByPackageName("com.iflytek.vflynote");
+			tts.setLanguage(Locale.CHINESE);
+		}
+
+	}
+
 	/** 侧边栏打开关闭监听 **/
 	private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
 		@Override
@@ -148,28 +196,6 @@ public class MainActivity extends Activity {
 		return resideMenu;
 	}
 
-	private void showWeatherAnimation(WEATHER_TYPE type) {
-		if (Constant.Module.hasWeatherAnimation) {
-			frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
-			switch (type) {
-			case RAIN:
-				WeatherUtil.rainAnimation(getApplicationContext(), frameLayout);
-				break;
-
-			case SNOW:
-				WeatherUtil.snowAnimation(getApplicationContext(), frameLayout);
-				break;
-
-			case SUN:
-			case CLOUD:
-			default:
-				WeatherUtil
-						.cloudAnimation(getApplicationContext(), frameLayout);
-				break;
-			}
-		}
-	}
-
 	private void initialLayout() {
 		imageShowResideMenu = (ImageView) findViewById(R.id.imageShowResideMenu);
 		imageShowResideMenu.setOnClickListener(new MyOnClickListener());
@@ -187,11 +213,6 @@ public class MainActivity extends Activity {
 		imageLocate = (ImageView) findViewById(R.id.imageLocate);
 		imageLocate.setVisibility(MyApp.isUseLocate ? View.VISIBLE
 				: View.INVISIBLE);
-		// 返回
-		RelativeLayout layoutBack = (RelativeLayout) findViewById(R.id.layoutBack);
-		layoutBack.setOnClickListener(new MyOnClickListener());
-		Button btnToMainFromWeather = (Button) findViewById(R.id.btnToMainFromWeather);
-		btnToMainFromWeather.setOnClickListener(new MyOnClickListener());
 
 		// 时钟信息
 		int weekToday = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
@@ -208,14 +229,13 @@ public class MainActivity extends Activity {
 		String strUnknown = getResources().getString(R.string.unknown);
 		String strDefaultWind = getResources().getString(
 				R.string.weather_default_wind_info);
-		String cityName = WeatherUtil.getCityAndDistrictName(MainActivity.this);
+		String cityName = WeatherUtil.getCityName(MainActivity.this);
 		TextView textLocation = (TextView) findViewById(R.id.textLocation);
 		textLocation.setText(cityName);
 		cityName = WeatherUtil.getCityName(MainActivity.this);
 
 		String weatherToday = WeatherUtil.getLocalWeatherInfo(this, 0,
 				WEATHER_INFO.WEATHER);
-		showWeatherAnimation(WeatherUtil.getTypeByStr(weatherToday));
 
 		// 背景
 		// RelativeLayout layoutWeather = (RelativeLayout)
@@ -225,8 +245,8 @@ public class MainActivity extends Activity {
 		// .getTypeByStr(weatherToday)))); // Background
 
 		ImageView imageTodayWeather = (ImageView) findViewById(R.id.imageTodayWeather);
-		imageTodayWeather.setImageResource(WeatherUtil
-				.getWeatherDrawable(WeatherUtil.getTypeByStr(weatherToday)));
+		imageTodayWeather.setImageResource(WeatherUtil.getWeatherDrawable(
+				WeatherUtil.getTypeByStr(weatherToday), false));
 		TextView textTodayWeather = (TextView) findViewById(R.id.textTodayWeather);
 		textTodayWeather.setText(weatherToday);
 
@@ -280,12 +300,12 @@ public class MainActivity extends Activity {
 		String day1weatherStr = WeatherUtil.getLocalWeatherInfo(this, 1,
 				WEATHER_INFO.WEATHER);
 		day1weather.setText(day1weatherStr);
-		day1image.setImageResource(WeatherUtil.getWeatherDrawable(WeatherUtil
-				.getTypeByStr(day1weatherStr)));
+		day1image.setImageResource(WeatherUtil.getWeatherDrawable(
+				WeatherUtil.getTypeByStr(day1weatherStr), true));
 
 		TextView day1tmpRange = (TextView) findViewById(R.id.day1tmpRange);
 		day1tmpRange.setText(WeatherUtil.getLocalWeatherInfo(this, 1,
-				WEATHER_INFO.TEMP) + "℃");
+				WEATHER_INFO.TEMP) + "°");
 		day1tmpRange.setTypeface(Typefaces.get(this, Constant.Path.FONT
 				+ "Font-Helvetica-Neue-LT-Pro.otf"));
 
@@ -317,12 +337,12 @@ public class MainActivity extends Activity {
 		String day2WeatherStr = WeatherUtil.getLocalWeatherInfo(this, 2,
 				WEATHER_INFO.WEATHER);
 		day2weather.setText(day2WeatherStr);
-		day2image.setImageResource(WeatherUtil.getWeatherDrawable(WeatherUtil
-				.getTypeByStr(day2WeatherStr)));
+		day2image.setImageResource(WeatherUtil.getWeatherDrawable(
+				WeatherUtil.getTypeByStr(day2WeatherStr), true));
 
 		TextView day2tmpRange = (TextView) findViewById(R.id.day2tmpRange);
 		day2tmpRange.setText(WeatherUtil.getLocalWeatherInfo(this, 2,
-				WEATHER_INFO.TEMP) + "℃");
+				WEATHER_INFO.TEMP) + "°");
 		day2tmpRange.setTypeface(Typefaces.get(this, Constant.Path.FONT
 				+ "Font-Helvetica-Neue-LT-Pro.otf"));
 
@@ -354,12 +374,12 @@ public class MainActivity extends Activity {
 				WEATHER_INFO.WEATHER);
 		TextView day3weather = (TextView) findViewById(R.id.day3weather);
 		day3weather.setText(day3WeatherStr);
-		day3image.setImageResource(WeatherUtil.getWeatherDrawable(WeatherUtil
-				.getTypeByStr(day3WeatherStr)));
+		day3image.setImageResource(WeatherUtil.getWeatherDrawable(
+				WeatherUtil.getTypeByStr(day3WeatherStr), true));
 
 		TextView day3tmpRange = (TextView) findViewById(R.id.day3tmpRange);
 		day3tmpRange.setText(WeatherUtil.getLocalWeatherInfo(this, 3,
-				WEATHER_INFO.TEMP) + "℃");
+				WEATHER_INFO.TEMP) + "°");
 		day3tmpRange.setTypeface(Typefaces.get(this, Constant.Path.FONT
 				+ "Font-Helvetica-Neue-LT-Pro.otf"));
 
@@ -391,12 +411,12 @@ public class MainActivity extends Activity {
 				WEATHER_INFO.WEATHER);
 		TextView day4weather = (TextView) findViewById(R.id.day4weather);
 		day4weather.setText(day4WeatherStr);
-		day4image.setImageResource(WeatherUtil.getWeatherDrawable(WeatherUtil
-				.getTypeByStr(day4WeatherStr)));
+		day4image.setImageResource(WeatherUtil.getWeatherDrawable(
+				WeatherUtil.getTypeByStr(day4WeatherStr), true));
 
 		TextView day4tmpRange = (TextView) findViewById(R.id.day4tmpRange);
 		day4tmpRange.setText(WeatherUtil.getLocalWeatherInfo(this, 4,
-				WEATHER_INFO.TEMP) + "℃");
+				WEATHER_INFO.TEMP) + "°");
 		day4tmpRange.setTypeface(Typefaces.get(this, Constant.Path.FONT
 				+ "Font-Helvetica-Neue-LT-Pro.otf"));
 
@@ -428,12 +448,12 @@ public class MainActivity extends Activity {
 				WEATHER_INFO.WEATHER);
 		TextView day5weather = (TextView) findViewById(R.id.day5weather);
 		day5weather.setText(day5WeatherStr);
-		day5image.setImageResource(WeatherUtil.getWeatherDrawable(WeatherUtil
-				.getTypeByStr(day5WeatherStr)));
+		day5image.setImageResource(WeatherUtil.getWeatherDrawable(
+				WeatherUtil.getTypeByStr(day5WeatherStr), true));
 
 		TextView day5tmpRange = (TextView) findViewById(R.id.day5tmpRange);
 		day5tmpRange.setText(WeatherUtil.getLocalWeatherInfo(this, 5,
-				WEATHER_INFO.TEMP) + "℃");
+				WEATHER_INFO.TEMP) + "°");
 		day5tmpRange.setTypeface(Typefaces.get(this, Constant.Path.FONT
 				+ "Font-Helvetica-Neue-LT-Pro.otf"));
 
@@ -469,9 +489,10 @@ public class MainActivity extends Activity {
 	}
 
 	private void speakWeather(int day) {
-		Intent intent = new Intent(this, SpeakService.class);
-		intent.putExtra("content", weatherArray[day]);
-		startService(intent);
+		if (tts != null) {
+			tts.speak(weatherArray[day], TextToSpeech.QUEUE_FLUSH, null,
+					weatherArray[day]);
+		}
 	}
 
 	class MyOnClickListener implements View.OnClickListener {
@@ -507,11 +528,6 @@ public class MainActivity extends Activity {
 
 			case R.id.updateButton:
 				updateWeather();
-				break;
-
-			case R.id.layoutBack:
-			case R.id.btnToMainFromWeather:
-				backToMain();
 				break;
 			}
 		}
@@ -604,39 +620,6 @@ public class MainActivity extends Activity {
 	private void startWeatherService() {
 		Intent intent = new Intent(this, WeatherService.class);
 		startService(intent);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		View decorView = getWindow().getDecorView();
-		decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
-
-		MyLog.v("[Weather]onResume");
-		MyApp.isActivityShowing = true;
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-
-		MyLog.v("[Weather]onPause");
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		MyLog.v("[Weather]onDestroy");
-		MyApp.isActivityShowing = false;
-		// 关闭LocationService
-		Intent intentLocationService = new Intent(this, LocationService.class);
-		stopService(intentLocationService);
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		MyLog.v("[Weather]onStop");
 	}
 
 	@Override

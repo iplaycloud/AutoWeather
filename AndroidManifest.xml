@@ -2,13 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tchip.weather"
     android:versionCode="2"
-    android:versionName="2016.04.12-10:20" >
+    android:versionName="2016.04.25-18:10" >
 
     <uses-sdk
-        android:minSdkVersion="19"
+        android:minSdkVersion="21"
         android:targetSdkVersion="22" />
 
-   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_GPS" />
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
@@ -65,7 +65,7 @@
             android:value="1lUDOW9LjeWdPVLLYtu7job4" />
 
         <activity
-            android:name="com.tchip.weather.ui.activity.MainActivity"
+            android:name="com.tchip.weather.ui.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
@@ -78,13 +78,19 @@
         </activity>
 
         <service android:name="com.tchip.weather.service.LocationService" />
-        <service
-            android:name="com.tchip.weather.service.SpeakService"
-            android:exported="true" />
         <service android:name="com.tchip.weather.service.WeatherService" />
         <service
             android:name="com.tchip.weather.service.TimeTickService"
             android:exported="true" />
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" >
+                </action>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

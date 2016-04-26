@@ -6,7 +6,6 @@ import com.tchip.weather.Constant;
 import com.tchip.weather.MyApp;
 import com.tchip.weather.R;
 import com.tchip.weather.service.LocationService;
-import com.tchip.weather.service.SpeakService;
 import com.tchip.weather.service.WeatherService;
 import com.tchip.weather.util.MyLog;
 import com.tchip.weather.util.NetworkUtil;
@@ -38,11 +37,8 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			MyLog.v("[TimeTickReceiver]Year:" + year);
 			if (year >= 2016) {
 				int hour = calendar.get(Calendar.HOUR_OF_DAY);
-				startSpeak(context, "整点报时:" + hour + "点整");
+				// startSpeak(context, "整点报时:" + hour + "点整");
 			}
-			// if (MyApp.autoSpeakWeather) {
-			// updateWeather();
-			// }
 		}
 
 	}
@@ -83,8 +79,8 @@ public class TimeTickReceiver extends BroadcastReceiver {
 							Constant.MySP.STR_LAST_SPEAK_POST_TIME, "05:55:55")
 							.equals(WeatherUtil.getLocalWeatherInfo(context, 0,
 									WEATHER_INFO.POST_TIME))) {
-						startSpeak(context, WeatherUtil.getLocalWeatherInfo(
-								context, 0, WEATHER_INFO.ALL));
+						// startSpeak(context, WeatherUtil.getLocalWeatherInfo(
+						// context, 0, WEATHER_INFO.ALL));
 						editor.putString(
 								Constant.MySP.STR_LAST_SPEAK_POST_TIME,
 								WeatherUtil.getLocalWeatherInfo(context, 0,
@@ -143,11 +139,4 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			new Thread(new UpdateWeatherThread()).start();
 		}
 	}
-
-	private void startSpeak(Context context, String content) {
-		Intent intent = new Intent(context, SpeakService.class);
-		intent.putExtra("content", content);
-		context.startService(intent);
-	}
-
 }

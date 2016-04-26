@@ -1,5 +1,10 @@
 package com.tchip.weather.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class DateUtil {
 
 	public static String getWeekStrByInt(int week) {
@@ -26,103 +31,25 @@ public class DateUtil {
 	}
 
 	/**
-	 * 根据秒钟获取“00:00:00”格式时间字符串，一天以上显示“0-00:00:00”
+	 * 计算daySpan天后的日期
 	 * 
-	 * @param secondCount
+	 * @param nowDate
+	 *            yyyy-MM-dd
 	 * @return
 	 */
-	public static String getFormatTimeBySecond(int secondCount) {
-		String strTime = "";
-		if (secondCount < 10) { // [0,10秒)
-			strTime = "00 : 0" + secondCount;
-		} else if (secondCount < 60) { // [10秒,1分)
-			strTime = "00 : " + secondCount;
-		} else if (secondCount < 600) { // [1分,10分)
-			int minutes = secondCount / 60;
-			int seconds = secondCount % 60;
-			if (seconds < 10)
-				strTime = "0" + minutes + " : 0" + seconds;
-			else
-				strTime = "0" + minutes + " : " + seconds;
-		} else if (secondCount < 3600) { // [10分,1时)
-			int minutes = secondCount / 60;
-			int seconds = secondCount % 60;
-			if (seconds < 10)
-				strTime = "00:" + minutes + ":0" + seconds;
-			else
-				strTime = "00:" + minutes + ":" + seconds;
-		} else if (secondCount < 36000) { // [1时,10时)
-			int hour = secondCount / 3600;
-			int minutes = (secondCount - hour * 3600) / 60;
-			int seconds = secondCount % 60;
-			if (minutes < 10) {
-				if (seconds < 10)
-					strTime = "0" + hour + ":0" + minutes + ":0" + seconds;
-				else
-					strTime = "0" + hour + ":0" + minutes + ":" + seconds;
-			} else {
-				if (seconds < 10)
-					strTime = "0" + hour + ":" + minutes + ":0" + seconds;
-				else
-					strTime = "0" + hour + ":" + minutes + ":" + seconds;
-			}
-		} else if (secondCount < 86400) { // [10时,1天)
-			int hour = secondCount / 3600;
-			int minutes = (secondCount - hour * 3600) / 60;
-			int seconds = secondCount % 60;
-			if (minutes < 10) {
-				if (seconds < 10) {
-					strTime = hour + ":0" + minutes + ":0" + seconds;
-				} else {
-					strTime = hour + ":0" + minutes + ":" + seconds;
-				}
-			} else {
-				if (seconds < 10) {
-					strTime = hour + ":" + minutes + ":0" + seconds;
-				} else {
-					strTime = hour + ":" + minutes + ":" + seconds;
-				}
-			}
-		} else { // [1天,+oo)
-			int day = secondCount / 86400;
-			int hour = (secondCount - day * 86400) / 3600;
-			int minutes = (secondCount - day * 86400 - hour * 3600) / 60;
-			int seconds = secondCount % 60;
-			if (hour < 10) {
-				if (minutes < 10) {
-					if (seconds < 10)
-						strTime = day + "-0" + hour + ":0" + minutes + ":0"
-								+ seconds;
-					else
-						strTime = day + "-0" + hour + ":0" + minutes + ":"
-								+ seconds;
-				} else {
-					if (seconds < 10)
-						strTime = day + "-0" + hour + ":" + minutes + ":0"
-								+ seconds;
-					else
-						strTime = day + "-0" + hour + ":" + minutes + ":"
-								+ seconds;
-				}
-			} else {
-				if (minutes < 10) {
-					if (seconds < 10)
-						strTime = day + "-" + hour + ":0" + minutes + ":0"
-								+ seconds;
-					else
-						strTime = day + "-" + hour + ":0" + minutes + ":"
-								+ seconds;
-				} else {
-					if (seconds < 10)
-						strTime = day + "-" + hour + ":" + minutes + ":0"
-								+ seconds;
-					else
-						strTime = day + "-" + hour + ":" + minutes + ":"
-								+ seconds;
-				}
-			}
+	public static Calendar changeDate(String nowDate, int daySpan) {
+		Calendar calendar = Calendar.getInstance();
+		Date date = null;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA)
+					.parse(nowDate);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return strTime;
-
+		calendar.setTime(date);
+		int day = calendar.get(Calendar.DATE);
+		calendar.set(Calendar.DATE, day + daySpan);
+		return calendar;
 	}
+
 }
