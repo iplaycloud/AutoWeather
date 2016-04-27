@@ -114,6 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/locate_icon_margin_top"
                 android:src="@drawable/ui_main_weather_location" >
             </ImageView>
 
@@ -357,7 +358,6 @@
                 android:layout_height="@dimen/weather_image_more_weather"
                 android:src="@drawable/weather_sun" />
 
-
             <TextView
                 android:id="@+id/day3weather"
                 android:layout_width="match_parent"
@@ -368,7 +368,7 @@
                 android:text="晴天"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/weather_text_more_temp" />
-            
+
             <TextView
                 android:id="@+id/day3tmpRange"
                 android:layout_width="match_parent"
@@ -426,7 +426,6 @@
                 android:layout_height="@dimen/weather_image_more_weather"
                 android:src="@drawable/weather_sun" />
 
-          
             <TextView
                 android:id="@+id/day4weather"
                 android:layout_width="match_parent"
@@ -437,8 +436,8 @@
                 android:text="晴天"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/weather_text_more_temp" />
-            
-              <TextView
+
+            <TextView
                 android:id="@+id/day4tmpRange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -446,7 +445,6 @@
                 android:text="25~35°"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/weather_text_more_temp" />
-            
 
             <TextView
                 android:id="@+id/day4wind"
@@ -496,7 +494,6 @@
                 android:layout_height="@dimen/weather_image_more_weather"
                 android:src="@drawable/weather_sun" />
 
-         
             <TextView
                 android:id="@+id/day5weather"
                 android:layout_width="match_parent"
@@ -507,8 +504,8 @@
                 android:text="晴天"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/weather_text_more_temp" />
-            
-               <TextView
+
+            <TextView
                 android:id="@+id/day5tmpRange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -516,7 +513,6 @@
                 android:text="25~35°"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/weather_text_more_temp" />
-            
 
             <TextView
                 android:id="@+id/day5wind"

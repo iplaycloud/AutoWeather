@@ -21,6 +21,7 @@
     <dimen name="today_info_margin_left">24dp</dimen>
     <dimen name="today_weather_info_text_size">27sp</dimen>
     <dimen name="city_text_size">27sp</dimen>
+    <dimen name="locate_icon_margin_top">3dp</dimen>
     <dimen name="toady_wind_margin_top">30dp</dimen>
     <dimen name="today_air_margin_top">9dp</dimen>
     <dimen name="today_wet_margin_bottom">30dp</dimen>

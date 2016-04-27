@@ -57,7 +57,7 @@ public class ProviderUtil {
 		/** FM发射开关:0,1 */
 		public static final String FM_TRANSMIT_STATE = "fm_transmit_state";
 
-		/** FM发射频率: 875-1080 */
+		/** FM发射频率: 8750-10800 */
 		public static final String FM_TRANSMIT_FREQ = "fm_transmit_freq";
 
 		/** 电子狗电源状态:0,1 */
