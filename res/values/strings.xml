@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Weather</string>
+    <string name="app_name">AutoWeather</string>
     <string name="hint_no_network">无网络</string>
     <string name="locate_fail_no_weather">定位失败，无法获取天气信息</string>
     <string name="get_weather_fail">天气获取失败，请稍候重试</string>
