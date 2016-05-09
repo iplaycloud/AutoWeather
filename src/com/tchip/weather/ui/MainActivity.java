@@ -1,7 +1,6 @@
 package com.tchip.weather.ui;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 import com.tchip.weather.Constant;
 import com.tchip.weather.MyApp;
@@ -15,7 +14,6 @@ import com.tchip.weather.util.MyLog;
 import com.tchip.weather.util.NetworkUtil;
 import com.tchip.weather.util.WeatherUtil;
 import com.tchip.weather.util.WeatherUtil.WEATHER_INFO;
-import com.tchip.weather.util.WeatherUtil.WEATHER_TYPE;
 import com.tchip.weather.view.ResideMenu;
 import com.tchip.weather.view.TitanicTextView;
 
@@ -27,8 +25,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -38,14 +34,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	private Context context;
 	private SharedPreferences sharedPreferences;
-	private TextToSpeech tts;
 	private FrameLayout frameLayout;
 	private String[] weatherArray;
 
@@ -78,7 +72,6 @@ public class MainActivity extends Activity {
 
 		sharedPreferences = getSharedPreferences(Constant.MySP.FILE_NAME,
 				Context.MODE_PRIVATE);
-		tts = new TextToSpeech(context, new MyOnInitListener());
 
 		// 刷新按钮和进度条
 		updateProgress = (ProgressBar) findViewById(R.id.updateProgress);
@@ -150,14 +143,9 @@ public class MainActivity extends Activity {
 		MyLog.v("[Weather]onStop");
 	}
 
-	class MyOnInitListener implements OnInitListener {
-
-		@Override
-		public void onInit(int status) {
-			// tts.setEngineByPackageName("com.iflytek.vflynote");
-			tts.setLanguage(Locale.CHINESE);
-		}
-
+	private void speakVoice(String content) {
+		sendBroadcast(new Intent(Constant.Broadcast.TTS_SPEAK).putExtra(
+				"content", content));
 	}
 
 	/** 侧边栏打开关闭监听 **/
@@ -488,13 +476,6 @@ public class MainActivity extends Activity {
 
 	}
 
-	private void speakWeather(int day) {
-		if (tts != null) {
-			tts.speak(weatherArray[day], TextToSpeech.QUEUE_FLUSH, null,
-					weatherArray[day]);
-		}
-	}
-
 	class MyOnClickListener implements View.OnClickListener {
 		@Override
 		public void onClick(View v) {
@@ -504,26 +485,26 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutDay1:
-				speakWeather(1);
+				speakVoice(weatherArray[1]);
 				break;
 
 			case R.id.layoutDay2:
-				speakWeather(2);
+				speakVoice(weatherArray[2]);
 				break;
 
 			case R.id.layoutDay3:
-				speakWeather(3);
+				speakVoice(weatherArray[3]);
 				break;
 
 			case R.id.layoutDay4:
-				speakWeather(4);
+				speakVoice(weatherArray[4]);
 				break;
 			case R.id.layoutDay5:
-				speakWeather(5);
+				speakVoice(weatherArray[5]);
 				break;
 
 			case R.id.layoutDay6:
-				speakWeather(6);
+				speakVoice(weatherArray[6]);
 				break;
 
 			case R.id.updateButton:
@@ -595,7 +576,7 @@ public class MainActivity extends Activity {
 					MyLog.v("[updateWeatherHandler]isGetSuccess:"
 							+ isGetSuccess);
 					if (isGetSuccess) {
-						speakWeather(0);
+						speakVoice(weatherArray[0]);
 					} else if (maxTryTime > 0) {
 						MyLog.v("[updateWeatherHandler]maxTryTime:"
 								+ maxTryTime);

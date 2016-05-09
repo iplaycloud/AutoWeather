@@ -17,6 +17,12 @@ public interface Constant {
 		public static final boolean hasWeatherAnimation = false;
 	}
 
+	/** 广播 */
+	public static final class Broadcast {
+		/** TTS播报,Extra:content(String) */
+		public static final String TTS_SPEAK = "tchip.intent.action.TTS_SPEAK";
+	}
+
 	public static final class MySP {
 		/**
 		 * SharedPreferences文件名字
