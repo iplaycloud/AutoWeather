@@ -54,7 +54,8 @@ public class MainActivity extends Activity {
 	private ProgressBar updateProgress;
 	private Button updateButton;
 
-	private ResideMenu resideMenu; // 左侧帮助侧边栏
+	/** 左侧帮助侧边栏 */
+	// private ResideMenu resideMenu;
 
 	private boolean isResideMenuClose = true;
 
@@ -94,21 +95,13 @@ public class MainActivity extends Activity {
 			// }
 		}
 
-		// attach to current activity;
-		resideMenu = new ResideMenu(this);
-		resideMenu.setBackground(R.color.grey_dark_light);
-		resideMenu.attachToActivity(this);
-		resideMenu.setMenuListener(menuListener);
-		// valid scale factor is between 0.0f and 1.0f. leftmenu'width is
-		// 150dip.
-		resideMenu.setScaleValue(0.6f);
-		// 禁止使用右侧菜单
-		resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
-
-		// 创建侧边栏内容条目
-		// itemHuiyuan = new ResideMenuItem(this,
-		// R.drawable.ui_chat_hint__navi,"导航");
-		// resideMenu.addMenuItem(itemHuiyuan, ResideMenu.DIRECTION_LEFT);
+		// 侧边划出
+		// resideMenu = new ResideMenu(this);
+		// resideMenu.setBackground(R.color.grey_dark_light);
+		// resideMenu.attachToActivity(this);
+		// resideMenu.setMenuListener(menuListener);
+		// resideMenu.setScaleValue(0.6f);
+		// resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
 	}
 
 	@Override
@@ -180,9 +173,9 @@ public class MainActivity extends Activity {
 		}
 	};
 
-	public ResideMenu getResideMenu() {
-		return resideMenu;
-	}
+	// public ResideMenu getResideMenu() {
+	// return resideMenu;
+	// }
 
 	private void initialLayout() {
 		imageShowResideMenu = (ImageView) findViewById(R.id.imageShowResideMenu);
@@ -481,7 +474,7 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.imageShowResideMenu:
-				resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+				// resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
 				break;
 
 			case R.id.layoutDay1:
@@ -609,7 +602,7 @@ public class MainActivity extends Activity {
 			if (isResideMenuClose) {
 				backToMain();
 			} else {
-				resideMenu.closeMenu();
+				// resideMenu.closeMenu();
 			}
 			return true;
 		} else
