@@ -79,16 +79,21 @@ public class ProviderUtil {
 
 	public static String getValue(Context context, String name) {
 		String dbValue = "";
-		Uri uri = Uri
-				.parse("content://com.tchip.provider.AutoProvider/state/name/"
-						+ name);
-		ContentResolver contentResolver = context.getContentResolver();
-		Cursor cursor = contentResolver.query(uri, null, null, null, null);
-		if (cursor != null && cursor.getCount() > 0) {
-			cursor.moveToFirst();
-			dbValue = cursor.getString(cursor.getColumnIndex("value"));
-			cursor.close();
-		} else {
+		try {
+			Uri uri = Uri
+					.parse("content://com.tchip.provider.AutoProvider/state/name/"
+							+ name);
+			ContentResolver contentResolver = context.getContentResolver();
+			Cursor cursor = contentResolver.query(uri, null, null, null, null);
+			if (cursor != null && cursor.getCount() > 0) {
+				cursor.moveToFirst();
+				dbValue = cursor.getString(cursor.getColumnIndex("value"));
+				cursor.close();
+			} else {
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			MyLog.e("ProviderUtil.getValue Exception:" + e.toString());
 		}
 		return dbValue;
 	}
