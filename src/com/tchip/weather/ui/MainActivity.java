@@ -121,19 +121,20 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		MyLog.v("[Weather]onDestroy");
-		MyApp.isActivityShowing = false;
+	protected void onStop() {
+		super.onStop();
+		MyLog.v("[Weather]onStop");
+
 		// 关闭LocationService
 		Intent intentLocationService = new Intent(this, LocationService.class);
 		stopService(intentLocationService);
 	}
 
 	@Override
-	protected void onStop() {
-		super.onStop();
-		MyLog.v("[Weather]onStop");
+	protected void onDestroy() {
+		super.onDestroy();
+		MyLog.v("[Weather]onDestroy");
+		MyApp.isActivityShowing = false;
 	}
 
 	private void speakVoice(String content) {
@@ -526,7 +527,6 @@ public class MainActivity extends Activity {
 		} else {
 			// 同步显示和配置
 			MyApp.isUseLocateNow = MyApp.isUseLocate;
-
 			if (MyApp.isUseLocate) {
 				startLocationService();
 			}

@@ -22,6 +22,7 @@ public class LocationService extends Service {
 	private String locCityName = "未定位";
 	private SharedPreferences preferences;
 	private Editor editor;
+	private int receiveTime = 0;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -40,6 +41,7 @@ public class LocationService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		MyLog.v("[LocationService]onStartCommand");
+		receiveTime = 0;
 		InitLocation(LocationMode.Hight_Accuracy, "bd09ll", scanSpan, true);
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -88,15 +90,16 @@ public class LocationService extends Service {
 			locCityName = location.getCity();
 
 			if ((locCityName != null) && (!locCityName.equals("未定位"))) {
-				MyLog.v("[Weather]LocationService:onReceiveLocation");
+				MyLog.v("[Weather]LocationService:onReceiveLocation:"
+						+ receiveTime);
 
 				editor.putString(Constant.MySP.STR_LOC_CITY_NAME, locCityName);
 				editor.putString(Constant.MySP.STR_LOC_CITY_NAME_OLD,
 						locCityName);
-				editor.putString(Constant.MySP.STR_LOC_LATITUDE,
-						"" + location.getLatitude());
-				editor.putString(Constant.MySP.STR_LOC_LONGITUDE,
-						"" + location.getLongitude());
+				// editor.putString(Constant.MySP.STR_LOC_LATITUDE,
+				// "" + location.getLatitude());
+				// editor.putString(Constant.MySP.STR_LOC_LONGITUDE,
+				// "" + location.getLongitude());
 				editor.putString("district", location.getDistrict());
 				// editor.putString("floor", location.getFloor());
 				editor.putString(Constant.MySP.STR_LOC_ADDRESS,
@@ -108,6 +111,12 @@ public class LocationService extends Service {
 				// "" + location.getAltitude());
 				editor.putString(Constant.MySP.STR_LOC_TIME, location.getTime());
 				editor.commit();
+
+				receiveTime++;
+			}
+			if (receiveTime > 10) {
+				receiveTime = 0;
+				stopSelf();
 			}
 		}
 	}

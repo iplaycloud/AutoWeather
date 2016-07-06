@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tchip.weather"
     android:versionCode="2"
-    android:versionName="2016.07.04-13:55" >
+    android:versionName="2016.07.06-10:15" >
 
     <uses-sdk
         android:minSdkVersion="21"
