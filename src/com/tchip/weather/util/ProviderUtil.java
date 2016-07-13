@@ -90,10 +90,12 @@ public class ProviderUtil {
 				dbValue = cursor.getString(cursor.getColumnIndex("value"));
 				cursor.close();
 			} else {
+				cursor.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			MyLog.e("ProviderUtil.getValue Exception:" + e.toString());
+			MyLog.e("ProviderUtil.get " + name + " Value Exception:"
+					+ e.toString());
 		}
 		return dbValue;
 	}
@@ -121,7 +123,8 @@ public class ProviderUtil {
 				contentResolverInsert.insert(uriInsert, valuesInsert); // Insert
 			}
 		} catch (Exception e) {
-			MyLog.e("ProviderUtil.setValue Exception:" + e.toString());
+			MyLog.e("ProviderUtil.set " + name + " Value Exception:"
+					+ e.toString());
 		}
 	}
 
