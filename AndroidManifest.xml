@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tchip.weather"
     android:versionCode="2"
-    android:versionName="2016.07.06-12:30" >
+    android:versionName="2016.07.20-17:00" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -79,9 +79,12 @@
         </activity>
 
         <service android:name="com.tchip.weather.service.LocationService" />
-        <service android:name="com.tchip.weather.service.WeatherService" />
+        <service android:name="com.tchip.weather.service.GetWeatherService" />
         <service
             android:name="com.tchip.weather.service.TimeTickService"
+            android:exported="true" />
+        <service
+            android:name="com.tchip.weather.service.UpdateWeatherService"
             android:exported="true" />
         <service
             android:name="com.baidu.location.f"

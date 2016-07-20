@@ -8,7 +8,7 @@ import com.tchip.weather.R;
 import com.tchip.weather.model.Titanic;
 import com.tchip.weather.model.Typefaces;
 import com.tchip.weather.service.LocationService;
-import com.tchip.weather.service.WeatherService;
+import com.tchip.weather.service.GetWeatherService;
 import com.tchip.weather.util.DateUtil;
 import com.tchip.weather.util.MyLog;
 import com.tchip.weather.util.NetworkUtil;
@@ -592,7 +592,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void startWeatherService() {
-		Intent intent = new Intent(this, WeatherService.class);
+		Intent intent = new Intent(this, GetWeatherService.class);
 		startService(intent);
 	}
 

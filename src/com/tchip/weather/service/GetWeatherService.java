@@ -26,7 +26,7 @@ import android.content.SharedPreferences.Editor;
 import android.os.IBinder;
 import android.text.TextUtils;
 
-public class WeatherService extends Service {
+public class GetWeatherService extends Service {
 	private TextUnderstander mTextUnderstander;
 	private SharedPreferences preferences;
 	private Editor editor;

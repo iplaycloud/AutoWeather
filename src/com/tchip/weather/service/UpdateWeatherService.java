@@ -1,46 +1,47 @@
-package com.tchip.weather.model;
-
-import java.util.Calendar;
+package com.tchip.weather.service;
 
 import com.tchip.weather.Constant;
 import com.tchip.weather.MyApp;
 import com.tchip.weather.R;
-import com.tchip.weather.service.LocationService;
-import com.tchip.weather.service.GetWeatherService;
+import com.tchip.weather.model.TimeTickReceiver.UpdateWeatherThread;
 import com.tchip.weather.util.MyLog;
 import com.tchip.weather.util.NetworkUtil;
 import com.tchip.weather.util.WeatherUtil;
 import com.tchip.weather.util.WeatherUtil.WEATHER_INFO;
 
-import android.content.BroadcastReceiver;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 
-public class TimeTickReceiver extends BroadcastReceiver {
+public class UpdateWeatherService extends Service {
 
 	private Context context;
 
 	@Override
-	public void onReceive(Context context, Intent intent) {
+	public IBinder onBind(Intent intent) {
+		return null;
+	}
 
-		this.context = context;
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		context = getApplicationContext();
+	}
 
-		// 获取时间
-		Calendar calendar = Calendar.getInstance();
-		int minute = calendar.get(Calendar.MINUTE);
-		if (minute == 0) {
-			int year = calendar.get(Calendar.YEAR);
-			MyLog.v("[TimeTickReceiver]Year:" + year);
-			if (year >= 2016) {
-				int hour = calendar.get(Calendar.HOUR_OF_DAY);
-				// startSpeak(context, "整点报时:" + hour + "点整");
-			}
-		}
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		new Thread(new UpdateWeatherThread()).start();
+		return super.onStartCommand(intent, flags, startId);
+	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
 	}
 
 	public class UpdateWeatherThread implements Runnable {
@@ -48,6 +49,7 @@ public class TimeTickReceiver extends BroadcastReceiver {
 		@Override
 		public void run() {
 			try {
+				startLocationService();
 				if (MyApp.isUseLocate) {
 					Thread.sleep(5000);
 				}
@@ -139,4 +141,5 @@ public class TimeTickReceiver extends BroadcastReceiver {
 			new Thread(new UpdateWeatherThread()).start();
 		}
 	}
+
 }
