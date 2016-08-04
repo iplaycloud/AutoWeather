@@ -20,4 +20,17 @@ public class ClickUtil {
 		lastClickTime = time;
 		return false;
 	}
+
+	private static long lastSaveLogTime;
+
+	public static boolean isSaveLogTooQuick(int runMinSpan) {
+		long time = System.currentTimeMillis();
+		long timeD = time - lastSaveLogTime;
+		if (0 < timeD && timeD < runMinSpan) {
+			MyLog.v("[ClickUtil]isSaveLogTooQuick,Run Too Quickly!");
+			return true;
+		}
+		lastSaveLogTime = time;
+		return false;
+	}
 }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.iflytek.cloud.SpeechUtility;
 import com.tchip.weather.util.MyLog;
+import com.tchip.weather.util.MyUncaughtExceptionHandler;
 
 public class MyApp extends Application {
 
@@ -38,6 +39,10 @@ public class MyApp extends Application {
 			MyLog.e("[MyApplication]SpeechUtility.createUtility: Catch Exception!");
 		}
 		super.onCreate();
+		
+		MyUncaughtExceptionHandler myUncaughtExceptionHandler = MyUncaughtExceptionHandler
+				.getInstance();
+		myUncaughtExceptionHandler.init(getApplicationContext());
 
 		/*
 		 * 百度地图SDK初始化

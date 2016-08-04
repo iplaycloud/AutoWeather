@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tchip.weather"
     android:versionCode="2"
-    android:versionName="2016.07.20-17:00" >
+    android:versionName="2016.08.04-12:00" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -45,6 +45,7 @@
     <!-- Launcher Permission -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.tchip.weather.MyApp"
