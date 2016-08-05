@@ -109,7 +109,7 @@ public class GetWeatherService extends Service {
 								editor.putString(
 										"day" + i + "tmpHigh",
 										Integer.parseInt(tempArray[0]
-												.split("℃")[0]) + 5 + "℃");
+												.split("℃")[0]) + 3 + "℃");
 							} else if (tempArray.length >= 2) {
 								editor.putString("day" + i + "tmpHigh",
 										tempArray[1]);
@@ -134,7 +134,7 @@ public class GetWeatherService extends Service {
 													""
 															+ (Integer
 																	.parseInt(tempArray[0]
-																			.split("℃")[0]) + 5));
+																			.split("℃")[0]) + 3));
 								} else if (tempArray.length >= 2) {
 									ProviderUtil.setValue(context,
 											Name.WEATHER_TEMP_HIGH,
