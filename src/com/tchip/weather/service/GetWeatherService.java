@@ -91,21 +91,21 @@ public class GetWeatherService extends Service {
 					JSONObject jsonObject;
 					try {
 						jsonObject = new JSONObject(jsonString);
+						MyLog.i("TextUnderstanderListener:" + jsonObject);
 						JSONArray mJSONArray = jsonObject.getJSONObject("data")
 								.getJSONArray("result");
 						for (int i = 0; i < 7; i++) {
-							JSONObject jsonDay = mJSONArray
-									.getJSONObject(i + 1); // 跳过天气数组第一个数据
-							String tempRange = jsonDay.getString("tempRange"); // 31℃~26℃
+							JSONObject jsonDay = mJSONArray.getJSONObject(i);
+							String tempRange = jsonDay.getString("tempRange"); // 26℃~31℃
 							String tempArray[] = tempRange.split("~");
 							editor.putString("postTime",
 									jsonDay.getString("lastUpdateTime"));
 
 							editor.putString("day" + i + "weather",
 									jsonDay.getString("weather"));
+							editor.putString("day" + i + "tmpLow", tempArray[0]);
 							editor.putString("day" + i + "tmpHigh",
-									tempArray[0]);
-							editor.putString("day" + i + "tmpLow", tempArray[1]);
+									tempArray[1]);
 							if (i == 0) { // 第一天
 								editor.putString("humidity",
 										jsonDay.getString("humidity"));
@@ -116,9 +116,11 @@ public class GetWeatherService extends Service {
 										Name.WEATHER_INFO,
 										jsonDay.getString("weather"));
 								ProviderUtil.setValue(context,
-										Name.WEATHER_TEMP_HIGH, tempArray[0].split("℃")[0]);
+										Name.WEATHER_TEMP_LOW,
+										tempArray[0].split("℃")[0]);
 								ProviderUtil.setValue(context,
-										Name.WEATHER_TEMP_LOW, tempArray[1].split("℃")[0]);
+										Name.WEATHER_TEMP_HIGH,
+										tempArray[1].split("℃")[0]);
 							}
 
 							String windDirection = jsonDay.getString("wind");
@@ -165,7 +167,7 @@ public class GetWeatherService extends Service {
 
 				MyApp.nowCityName = cityStr;
 
-				String text = cityStr + "天气";
+				String text = cityStr + "天气怎么样";
 				MyLog.v("WeatherService:Get city:" + cityStr);
 
 				if (mTextUnderstander.isUnderstanding()) {

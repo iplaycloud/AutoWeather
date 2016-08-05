@@ -40,9 +40,9 @@ public class MyApp extends Application {
 		}
 		super.onCreate();
 		
-		MyUncaughtExceptionHandler myUncaughtExceptionHandler = MyUncaughtExceptionHandler
-				.getInstance();
-		myUncaughtExceptionHandler.init(getApplicationContext());
+//		MyUncaughtExceptionHandler myUncaughtExceptionHandler = MyUncaughtExceptionHandler
+//				.getInstance();
+//		myUncaughtExceptionHandler.init(getApplicationContext());
 
 		/*
 		 * 百度地图SDK初始化
