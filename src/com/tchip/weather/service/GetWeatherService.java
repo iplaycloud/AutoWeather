@@ -103,9 +103,17 @@ public class GetWeatherService extends Service {
 
 							editor.putString("day" + i + "weather",
 									jsonDay.getString("weather"));
-							editor.putString("day" + i + "tmpLow", tempArray[0]);
-							editor.putString("day" + i + "tmpHigh",
-									tempArray[1]);
+							if (tempArray.length >= 1) {
+								editor.putString("day" + i + "tmpLow",
+										tempArray[0]);
+								editor.putString(
+										"day" + i + "tmpHigh",
+										Integer.parseInt(tempArray[0]
+												.split("℃")[0]) + 5 + "℃");
+							} else if (tempArray.length >= 2) {
+								editor.putString("day" + i + "tmpHigh",
+										tempArray[1]);
+							}
 							if (i == 0) { // 第一天
 								editor.putString("humidity",
 										jsonDay.getString("humidity"));
@@ -115,12 +123,23 @@ public class GetWeatherService extends Service {
 								ProviderUtil.setValue(context,
 										Name.WEATHER_INFO,
 										jsonDay.getString("weather"));
-								ProviderUtil.setValue(context,
-										Name.WEATHER_TEMP_LOW,
-										tempArray[0].split("℃")[0]);
-								ProviderUtil.setValue(context,
-										Name.WEATHER_TEMP_HIGH,
-										tempArray[1].split("℃")[0]);
+								if (tempArray.length >= 1) {
+									ProviderUtil.setValue(context,
+											Name.WEATHER_TEMP_LOW,
+											tempArray[0].split("℃")[0]);
+									ProviderUtil
+											.setValue(
+													context,
+													Name.WEATHER_TEMP_HIGH,
+													""
+															+ (Integer
+																	.parseInt(tempArray[0]
+																			.split("℃")[0]) + 5));
+								} else if (tempArray.length >= 2) {
+									ProviderUtil.setValue(context,
+											Name.WEATHER_TEMP_HIGH,
+											tempArray[1].split("℃")[0]);
+								}
 							}
 
 							String windDirection = jsonDay.getString("wind");
@@ -137,6 +156,8 @@ public class GetWeatherService extends Service {
 						e.printStackTrace();
 						editor.putString("exception", e.toString());
 						editor.commit();
+					} catch (Exception e) {
+
 					} finally {
 						stopSelf();
 					}
