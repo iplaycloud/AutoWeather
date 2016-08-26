@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -69,7 +70,12 @@ public class MainActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_main);
+
+		if ("TX3".equals(Build.MODEL)) { // TX3-7.84
+			setContentView(R.layout.activity_main_tx3);
+		} else {
+			setContentView(R.layout.activity_main);
+		}
 
 		sharedPreferences = getSharedPreferences(Constant.MySP.FILE_NAME,
 				Context.MODE_PRIVATE);
